@@ -16,8 +16,16 @@
 
 <script lang="ts">
 	import Vue from 'vue';
+    import router from './router/index';
+    import store from './store';
+    import {Socket} from './plugins/socket';
+
+    Vue.use(Socket);
 
 	export default Vue.extend({
+		router,
+		store,
+
 		data() {
 			return {
 				socketOpen: false,

@@ -51,7 +51,7 @@
 
 <style lang="scss" scoped>
 	.withBg {
-		background: url('~Assets/start-background.jpg') no-repeat center center;
+		background: url('./../../assets/start-background.jpg') no-repeat center center;
 		background-size: cover;
 	}
 
