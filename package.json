@@ -1,0 +1,26 @@
+{
+  "name": "oeamtc-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schwarzdavid/oeamtc-common.git"
+  },
+  "author": "David Schwarz <schwarz.david10@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schwarzdavid/oeamtc-common/issues"
+  },
+  "homepage": "https://github.com/schwarzdavid/oeamtc-common#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.3.4",
+    "vuex": "^3.0.1"
+  }
+}
