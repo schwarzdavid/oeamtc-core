@@ -9,16 +9,89 @@
 						<v-card-text class="text-xs-center">
 
 							<!-- CARD CONTENT -->
-							<h1 class="mt-5">Select your role</h1>
+							<v-form v-model="formValid" @submit.prevent="onSubmit">
+								<v-container>
 
-							<v-layout align-center row justify-space-around fill-height class="my-5">
-								<router-link to="/driver">
-									<v-btn color="info" large>Driver</v-btn>
-								</router-link>
-								<router-link to="/admin">
-									<v-btn color="info" large>Admin</v-btn>
-								</router-link>
-							</v-layout>
+									<h1 class="my-3">Anmeldedaten überprüfen</h1>
+
+									<v-layout row wrap>
+
+										<!-- USERNAME -->
+										<v-flex xs12 sm6>
+											<v-text-field name="username" label="Username" type="text"
+											              v-model="user.username"
+											              autocomplete="username">
+											</v-text-field>
+										</v-flex>
+										<!-- / USERNAME -->
+
+										<!-- FUNKNUMMER -->
+										<v-flex xs12 sm6>
+											<v-text-field name="radionumber" label="Funknummer" type="text"
+											              v-model="user.radionumber"></v-text-field>
+										</v-flex>
+										<!-- / FUNKNUMMER -->
+
+										<!-- SERVICESTELLE -->
+										<v-flex xs12 sm6>
+											<v-layout row>
+
+												<v-flex xs4>
+													<v-text-field name="servicecenter-id"
+													              v-model="user.servicecenter.id"
+													              :disabled="true" label="Servicestelle"></v-text-field>
+												</v-flex>
+
+												<v-flex xs8>
+													<v-text-field name="servicecenter-name" class="ml-3"
+													              v-model="user.servicecenter.name"
+													              :disabled="true"></v-text-field>
+												</v-flex>
+											</v-layout>
+										</v-flex>
+										<!-- / SERVICESTELLE -->
+
+										<!-- UHRZEIT -->
+										<v-flex xs12 sm6>
+											<v-dialog ref="dialog" v-model="timeModal" :return-value.sync="user.time"
+											          presistent
+											          lazy full-width width="290px">
+
+												<v-text-field slot="activator" v-model="user.time" label="Uhrzeit"
+												              readonly></v-text-field>
+
+												<v-time-picker v-if="timeModal" v-model="user.time" full-width
+												               format="24hr">
+													<v-spacer></v-spacer>
+													<v-btn flat color="primary" @click.prevent="timeModal=false">
+														Abbrechen
+													</v-btn>
+													<v-btn flat color="primary"
+													       @click.prevent="$refs.dialog.save(user.time)">OK
+													</v-btn>
+												</v-time-picker>
+
+											</v-dialog>
+										</v-flex>
+										<!-- / UHRZEIT -->
+
+										<!-- GRUND -->
+										<v-flex>
+											<v-select :items="['Geplanter Dienstbeginn', 'Testgrund', 'Kollege muss Rausch ausschlafen']"
+											          label="Grund"
+											          v-model="user.reason"></v-select>
+										</v-flex>
+										<!-- / GRUND -->
+
+										<!-- SUBMIT -->
+										<v-flex>
+											<v-btn type="submit" color="accent">Anmelden</v-btn>
+										</v-flex>
+										<!-- / SUBMIT -->
+
+									</v-layout>
+								</v-container>
+							</v-form>
 							<!-- / CARD CONTENT -->
 
 						</v-card-text>
@@ -28,25 +101,35 @@
 		</v-container>
 		<!-- / CENTERED CARD -->
 
-		<!-- FOOTER -->
-		<v-footer :app="true" dark class="transparentBg pa-4 my-3">
-			<span>Made by <a href="https://schwarzdavid.rocks" target="_blank" rel="noopener">David Schwarz</a></span>
-		</v-footer>
-		<!-- / FOOTER -->
-
 	</v-content>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+    import Vue from 'vue';
 
-	export default Vue.extend({
-		created() {
-			this.$onSocket('open', () => {
-				this.socketOpen = true;
-			});
-		}
-	});
+    export default Vue.extend({
+        created() {
+            this.$onSocket('open', () => {
+                this.socketOpen = true;
+            });
+        },
+
+        data() {
+            return {
+                user: {
+                    username: '012345',
+                    servicecenter: {
+                        id: 1234,
+                        name: 'Zentrale Erdberg'
+                    },
+                    time: new Date().toTimeString().substr(0, 5).toString(),
+                    radionumber: 123456,
+                    reason: 'Geplanter Dienstbeginn'
+                },
+                timeModal: false
+            }
+        }
+    });
 </script>
 
 <style lang="scss" scoped>
@@ -55,15 +138,7 @@
 		background-size: cover;
 	}
 
-	.transparentBg {
-		background: transparent !important;
-
-		a {
-			color: inherit;
-		}
-	}
-
 	.withMaxWidth {
-		max-width: 500px !important;
+		max-width: 650px !important;
 	}
 </style>
