@@ -14,11 +14,19 @@
 	</v-app>
 </template>
 
-<script lang="ts">
+<script>
 	import Vue from 'vue';
     import router from './router/index';
-    import store from './store';
-    import {Socket} from './plugins/socket';
+    import store from './store/index';
+    import {Socket} from './plugins/socket/index';
+    import Vuetify from 'vuetify';
+
+    Vue.use(Vuetify, {
+        iconfont: 'mdi',
+        theme: {
+
+        }
+    });
 
     Vue.use(Socket);
 

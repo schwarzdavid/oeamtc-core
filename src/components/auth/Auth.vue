@@ -56,7 +56,7 @@
 	}
 
 	.transparentBg {
-		background: transparent;
+		background: transparent !important;
 
 		a {
 			color: inherit;
@@ -64,6 +64,6 @@
 	}
 
 	.withMaxWidth {
-		max-width: 500px;
+		max-width: 500px !important;
 	}
 </style>
