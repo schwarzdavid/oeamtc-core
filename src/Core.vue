@@ -59,6 +59,7 @@
 <style lang="scss">
 	html, body {
 		height: 100%;
+		overflow: hidden;
 	}
 
 	#app, .application--wrap {

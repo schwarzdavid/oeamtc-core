@@ -85,7 +85,7 @@
 
 										<!-- SUBMIT -->
 										<v-flex>
-											<v-btn type="submit" color="accent">Anmelden</v-btn>
+											<v-btn type="submit" :diabled="!formValid" color="primary">Anmelden</v-btn>
 										</v-flex>
 										<!-- / SUBMIT -->
 
@@ -106,6 +106,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import {IUserRequest} from "../../store/user/types";
 
     export default Vue.extend({
         created() {
@@ -125,10 +126,18 @@
                     time: new Date().toTimeString().substr(0, 5).toString(),
                     radionumber: 123456,
                     reason: 'Geplanter Dienstbeginn'
-                },
-                timeModal: false
+                } as IUserRequest,
+                timeModal: false,
+				formValid: false
             }
-        }
+        },
+
+		methods: {
+            async onSubmit(){
+                await this.$store.dispatch('user/login', this.user);
+                this.$router.push('/');
+			}
+		}
     });
 </script>
 
