@@ -21,6 +21,7 @@ const router = new VueRouter({
 			component: DashboardComponent,
 			beforeEnter(to, from, next){
 				if(!store.getters['user/isAuthenticated']){
+					console.log("im here once again");
 					return next('/auth');
 				}
 				return next();

@@ -77,15 +77,16 @@
 
 										<!-- GRUND -->
 										<v-flex>
-											<v-select :items="['Geplanter Dienstbeginn', 'Testgrund', 'Kollege muss Rausch ausschlafen']"
-											          label="Grund"
-											          v-model="user.reason"></v-select>
+											<v-select
+													:items="['Geplanter Dienstbeginn', 'Testgrund', 'Kollege muss Rausch ausschlafen']"
+													label="Grund"
+													v-model="user.reason"></v-select>
 										</v-flex>
 										<!-- / GRUND -->
 
 										<!-- SUBMIT -->
 										<v-flex>
-											<v-btn type="submit" :diabled="!formValid" color="primary">Anmelden</v-btn>
+											<v-btn type="submit" :diabled="!formValid" class="primary" style="color:rgba(0,0,0,.87);">Anmelden</v-btn>
 										</v-flex>
 										<!-- / SUBMIT -->
 
@@ -128,16 +129,16 @@
                     reason: 'Geplanter Dienstbeginn'
                 } as IUserRequest,
                 timeModal: false,
-				formValid: false
+                formValid: false
             }
         },
 
-		methods: {
-            async onSubmit(){
+        methods: {
+            async onSubmit() {
                 await this.$store.dispatch('user/login', this.user);
                 this.$router.push('/');
-			}
-		}
+            }
+        }
     });
 </script>
 
