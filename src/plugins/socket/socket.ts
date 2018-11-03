@@ -19,6 +19,17 @@ function openSocket() {
 
 	ws.onmessage = (message: MessageEvent) => {
 		console.log('Message received', message);
+		try {
+            const data = JSON.parse(message.data);
+
+            if(!data.type){
+            	throw new Error('Invalid message data. Missing type');
+			}
+
+			trigger(data.type, data.payload);
+        } catch(err){
+			console.error('Cannot parse received message', err);
+		}
 	};
 
 	ws.onerror = (err: ErrorEvent) => {
@@ -75,8 +86,12 @@ function trigger(type: string, payload?: any){
 	}
 }
 
+function isOpen(): boolean {
+	return _socket.readyState === WebSocket.OPEN;
+}
+
 const socket: SocketPlugin = {
-	on, off, emit
+	on, off, emit, isOpen
 };
 
 export {socket}

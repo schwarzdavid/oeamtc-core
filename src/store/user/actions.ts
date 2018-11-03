@@ -7,10 +7,10 @@ async function login({commit}, credentials: IUserRequest){
 	const response = await api.post('/auth/login', credentials).then(res => res.data);
 
 	commit('setUser', {
-        username: response._username,
-        servicecenter: response._servicecenter,
-        state: response._state,
-        radionumber: response._radionumber
+        username: response.username,
+        servicecenter: response.servicecenter,
+        state: response.state,
+        radionumber: response.radionumber
 	});
 }
 

@@ -230,8 +230,11 @@
         },
 
         created() {
-            this.$emitSocket('register', {
-                username: this.$store.state.user.username
+            this.$onSocket('open', () => {
+                console.log('registering');
+                this.$emitSocket('register', {
+                    username: this.$store.state.user.username
+                });
             });
         },
 
