@@ -1,0 +1,5 @@
+interface IMission {
+
+}
+
+export {IMission}

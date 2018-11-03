@@ -3,7 +3,8 @@ import VueRouter from 'vue-router';
 import store from '../store';
 import DashboardComponent from '../components/dashboard/Dashboard.vue';
 import AuthComponent from '../components/auth/Auth.vue';
-import MissionComponent from '../components/dashboard/pages/Missions.vue';
+import MissionsComponent from '../components/dashboard/pages/Missions.vue';
+import MissionComponent from '../components/dashboard/pages/Mission.vue';
 
 Vue.use(VueRouter);
 
@@ -30,8 +31,13 @@ const router = new VueRouter({
                 {
                     path: '',
 					name: 'missions',
+					component: MissionsComponent
+                },
+				{
+					path: 'mission',
+					name: 'mission',
 					component: MissionComponent
-                }
+				}
 			]
 		}
 	]

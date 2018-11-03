@@ -22,6 +22,7 @@
 
 					<!-- BILL W/O OPERATION -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Rechnung ohne Einsatz</v-list-tile-title>
 						</v-list-tile-content>
@@ -30,6 +31,7 @@
 
 					<!-- NEW OPERATION -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Neuen Fall aufnehmen</v-list-tile-title>
 						</v-list-tile-content>
@@ -38,6 +40,7 @@
 
 					<!-- SYSTEMDIENSTE -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Systemdienste</v-list-tile-title>
 						</v-list-tile-content>
@@ -46,6 +49,7 @@
 
 					<!-- REQUEST CURRENT STATE -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Situationsdarstellung anfordern</v-list-tile-title>
 						</v-list-tile-content>
@@ -54,6 +58,7 @@
 
 					<!-- CHANGE USER-DATA W/O OPERATION -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>MG-Daten ändern ohne Einsatz</v-list-tile-title>
 						</v-list-tile-content>
@@ -92,6 +97,7 @@
 
 					<!-- BEGIN WORK -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Dienstbeginn</v-list-tile-title>
 						</v-list-tile-content>
@@ -100,6 +106,7 @@
 
 					<!-- READY -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Bereit</v-list-tile-title>
 						</v-list-tile-content>
@@ -108,6 +115,7 @@
 
 					<!-- END WORK -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Dienstende</v-list-tile-title>
 						</v-list-tile-content>
@@ -116,6 +124,7 @@
 
 					<!-- DESIRE EDUCATION -->
 					<v-list-tile>
+						<v-list-tile-action></v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Wunsch Schulung</v-list-tile-title>
 						</v-list-tile-content>
