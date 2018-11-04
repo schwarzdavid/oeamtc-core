@@ -1,13 +1,14 @@
-import {IUser, UserState} from "./types";
+import {IUserState, UserState} from "./types";
 
-const state: IUser = {
+const state: IUserState = {
 	username: null,
 	servicecenter: {
 		id: null,
 		name: null
 	},
 	radionumber: null,
-	state: UserState.READY
+	state: UserState.READY,
+	socketId: null
 };
 
 export {state}

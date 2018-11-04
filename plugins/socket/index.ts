@@ -1,4 +1,4 @@
-import {socket} from "./socket";
+import {socket} from "./lib";
 import {Callback as SocketCallback} from "./types";
 
 const Socket = {

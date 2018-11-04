@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store';
+import {config} from '../plugins/config/lib';
 import DashboardComponent from '../components/dashboard/Dashboard.vue';
 import AuthComponent from '../components/auth/Auth.vue';
 import MissionsComponent from '../components/dashboard/pages/Missions.vue';
-import MissionComponent from '../components/dashboard/pages/Mission.vue';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
 	mode: 'history',
+	base: '/',
 	routes: [
 		{
 			path: '/auth',
@@ -20,27 +21,27 @@ const router = new VueRouter({
 			path: '/',
 			name: 'dashboard',
 			component: DashboardComponent,
-			beforeEnter(to, from, next){
-				if(!store.getters['user/isAuthenticated']){
-					console.log("im here once again");
-					return next('/auth');
-				}
-				return next();
-			},
 			children: [
                 {
                     path: '',
 					name: 'missions',
 					component: MissionsComponent
-                },
-				{
-					path: 'mission',
-					name: 'mission',
-					component: MissionComponent
-				}
+                }
 			]
 		}
 	]
+});
+
+router.beforeEach((to, from, next) => {
+    if(to.name === 'auth'){
+        return next();
+    }
+
+    if(!store.getters['user/isAuthenticated']){
+        return next('/auth');
+    }
+
+    return next();
 });
 
 export default router;

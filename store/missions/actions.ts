@@ -1,10 +1,10 @@
 import {ActionTree} from "vuex";
-import {IMission} from "./types";
+import {IMissionPreview, IMissionState} from "./types";
 import {IRootState} from "../types";
-import {api} from "../../plugins/rest";
+import {api} from "../../plugins/rest/lib";
 
 async function reload({commit}){
-    const missions = await api.get('/missions').then(response => response.data) as IMission[];
+    const missions = await api.get('/missions').then(response => response.data) as IMissionPreview[];
 
     commit('clearMissions');
 
@@ -15,8 +15,17 @@ async function reload({commit}){
     return true;
 }
 
-const actions: ActionTree<IMission[], IRootState> = {
-    reload
+async function assignMission({commit}){
+    const assignedMission = await api.post('/missions/assign').then(response => response.data);
+
+    commit('assignMission', assignedMission);
+
+    return true;
+}
+
+const actions: ActionTree<IMissionState, IRootState> = {
+    reload,
+    assignMission
 };
 
 export {actions}

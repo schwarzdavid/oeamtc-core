@@ -4,6 +4,7 @@ import {IRootState} from "./types";
 import {module as userModule} from './user';
 import {module as missionModule} from './missions';
 import {socket} from "./plugins";
+import {actions} from "./actions";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ const modules: ModuleTree<IRootState> = {
 
 export default new Vuex.Store<IRootState>({
 	state,
+	actions,
 	modules,
 	plugins: [socket]
 });

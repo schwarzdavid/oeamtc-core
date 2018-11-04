@@ -1,17 +1,22 @@
 import {MutationTree} from "vuex";
-import {IMission} from "./types";
+import {IMissionState, IMissionPreview, IMission} from "./types";
 
-function addMission(state: IMission[], mission: IMission){
-    state.push(mission);
+function addMission(state: IMissionState, mission: IMissionPreview){
+    state.missions.push(mission);
 }
 
-function clearMissions(state: IMission[]) {
-    state.length = 0;
+function clearMissions(state: IMissionState) {
+    state.missions = [];
 }
 
-const mutations: MutationTree<IMission[]> = {
+function assignMission(state: IMissionState, assignment: IMission){
+    state.assignedMission = assignment;
+}
+
+const mutations: MutationTree<IMissionState> = {
     addMission,
-    clearMissions
+    clearMissions,
+    assignMission
 };
 
 export {mutations}

@@ -1,9 +1,9 @@
 import {GetterTree} from "vuex";
-import {IUser} from "./types";
+import {IUserState} from "./types";
 import {IRootState} from "../types";
 
-const getters: GetterTree<IUser, IRootState> = {
-	isAuthenticated(state: IUser): boolean {
+const getters: GetterTree<IUserState, IRootState> = {
+	isAuthenticated(state: IUserState): boolean {
 		return !!state.username;
 	}
 };

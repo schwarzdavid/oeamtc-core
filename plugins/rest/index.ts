@@ -1,16 +1,9 @@
-import axios from 'axios';
-import store from '../../store';
+import {api} from "./lib";
 
-const api =  axios.create({
-	baseURL: 'https://' + location.hostname + ':8080'
-});
+const Api = {
+    install(Vue){
+        Vue.prototype.$api = api;
+    }
+};
 
-api.interceptors.request.use(config => {
-	const id = store.state.user.username;
-	if(id){
-		config.headers.Authorization = id;
-	}
-	return config;
-});
-
-export {api}
+export {Api}

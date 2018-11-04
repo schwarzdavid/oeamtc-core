@@ -4,12 +4,12 @@
 
 		<v-snackbar v-model="socketOpen" bottom right>
 			<span>Verbindung hergestellt</span>
-			<v-btn color="pink" flat @click.prevent="socketOpen = false">Schließen</v-btn>
+			<v-btn color="primary" flat @click.prevent="socketOpen = false">Schließen</v-btn>
 		</v-snackbar>
 
 		<v-snackbar v-model="socketClosed" bottom right>
 			<span>Verbindung unterbrochen</span>
-			<v-btn color="pink" flat @click.prevent="socketClosed = false">Schließen</v-btn>
+			<v-btn color="primary" flat @click.prevent="socketClosed = false">Schließen</v-btn>
 		</v-snackbar>
 	</v-app>
 </template>
@@ -20,8 +20,10 @@
     import store from './store/index';
     import {Socket} from './plugins/socket/index';
     import Vuetify from 'vuetify';
+    import {Config} from "./plugins/config";
+    import {Api} from "./plugins/rest";
 
-    Vue.use(Vuetify, {
+	Vue.use(Vuetify, {
         iconfont: 'mdi',
         theme: {
 	        primary: '#ffdc00',
@@ -33,8 +35,9 @@
 	        success: '#62b339'
         }
     });
-
     Vue.use(Socket);
+    Vue.use(Config);
+    Vue.use(Api);
 
 	export default Vue.extend({
 		router,

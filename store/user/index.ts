@@ -1,12 +1,12 @@
 import {Module} from "vuex";
 import {IRootState} from "../types";
-import {IUser} from "./types";
+import {IUserState} from "./types";
 import {state} from "./state";
 import {actions} from "./actions";
 import {getters} from "./getters";
 import {mutations} from "./mutations";
 
-const vuexModule: Module<IUser, IRootState> = {
+const vuexModule: Module<IUserState, IRootState> = {
 	state,
 	actions,
 	mutations,

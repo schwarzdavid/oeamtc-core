@@ -1,8 +1,8 @@
 import {GetterTree} from "vuex";
-import {IMission} from "./types";
+import {IMissionState} from "./types";
 import {IRootState} from "../types";
 
-const getters: GetterTree<IMission[], IRootState> = {
+const getters: GetterTree<IMissionState, IRootState> = {
 
 };
 

@@ -184,15 +184,8 @@
             };
         },
 
-        computed: {
-            time() {
-                return new Date().toTimeString().substr(0, 5);
-            }
-        },
-
         created() {
             this.$onSocket('open', () => {
-                console.log('registering');
                 this.$emitSocket('register', {
                     username: this.$store.state.user.username
                 });

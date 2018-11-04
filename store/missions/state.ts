@@ -1,5 +1,8 @@
-import {IMission} from "./types";
+import {IMissionState} from "./types";
 
-const state: IMission[] = [];
+const state: IMissionState = {
+    missions: [],
+    assignedMission: null
+};
 
 export {state};

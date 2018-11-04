@@ -12,8 +12,9 @@
 			<v-list>
 				<v-list-tile>
 					<v-list-content>
-						<v-list-tile-title>Aktueller Status: <strong>BEREIT</strong></v-list-tile-title>
-						<v-list-tile-sub-title>Servicestelle: 1234 Zentrale Erdberg</v-list-tile-sub-title>
+						<v-list-tile-title>Aktueller Status: <strong class="text-uppercase">{{state}}</strong>
+						</v-list-tile-title>
+						<v-list-tile-sub-title>Servicestelle: {{servicecenter}}</v-list-tile-sub-title>
 					</v-list-content>
 				</v-list-tile>
 			</v-list>
@@ -40,11 +41,15 @@
 			<v-spacer></v-spacer>
 
 			<!-- ALERT -->
-			<v-btn color="red" dark>Alarm</v-btn>
+			<v-btn color="red" :loading="alertPending" @click="alert()" dark>
+				Alarm
+			</v-btn>
 			<!-- / ALERT -->
 
 			<!-- CALL DESIRE -->
-			<v-btn class="hidden-xs-only">Sprachwunsch</v-btn>
+			<v-btn class="hidden-xs-only" :loading="callDesirePending" @click="callDesire()">
+				Sprachwunsch
+			</v-btn>
 			<!-- / CALL DESIRE -->
 
 			<!-- TIME -->
@@ -54,17 +59,88 @@
 		</v-toolbar>
 		<!-- / TOOLBAR -->
 
+		<v-snackbar v-model="reportError" bottom right>
+			<span>Fehler bei Übermittlung der Anfrage</span>
+			<v-btn color="primary" flat @click="reportError = false">Schließen</v-btn>
+		</v-snackbar>
+
+		<v-snackbar v-model="reportSuccess" bottom right>
+			<span>Anfrage erfolgreich</span>
+			<v-btn color="primary" flat @click="reportSuccess = false">Schließen</v-btn>
+		</v-snackbar>
+
 	</div>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
+    import Vue from 'vue';
+    import {UserState} from '../../store/user/types'
 
-	export default Vue.extend({
-		data(){
-		    return {
-                drawer: null
-		    };
-		}
-	});
+    const translations = {
+        READY: 'bereit',
+        MISSION_RECEIVED: 'mission erhalten',
+        ARRIVING: 'in anfahrt',
+        AT_WORK: 'in arbeit',
+        MOVING_ON: 'in weiterfahrt'
+    } as {[key in keyof typeof UserState]: string};
+
+    function getTime(): string {
+	    return new Date().toTimeString().substr(0, 5);
+    }
+
+    export default Vue.extend({
+        data() {
+            return {
+                drawer: null,
+                alertPending: false,
+                callDesirePending: false,
+	            reportSuccess: false,
+	            reportError: false,
+	            time: getTime()
+            };
+        },
+
+	    created(){
+            setInterval(() => {
+                this.time = getTime();
+            }, 1000);
+	    },
+
+        computed: {
+            state(): string {
+                return translations[UserState[this.$store.state.user.state]];
+            },
+            servicecenter(): string {
+                return `${this.$store.state.user.servicecenter.id} ${this.$store.state.user.servicecenter.name}`;
+            }
+        },
+
+	    methods: {
+            async alert(){
+	            this.alertPending = true;
+
+	            try {
+	                await this.$api.post('/utility/alert');
+	                this.reportSuccess = true;
+	            } catch (e){
+	                this.reportError = true;
+	            } finally {
+	                this.alertPending = false;
+	            }
+            },
+
+		    async callDesire(){
+                this.callDesirePending = true;
+
+                try {
+                    await this.$api.post('/utility/call-desire');
+                    this.reportSuccess = true;
+                } catch (e){
+                    this.reportError = true;
+                } finally {
+                    this.callDesirePending = false;
+                }
+		    }
+	    }
+    });
 </script>

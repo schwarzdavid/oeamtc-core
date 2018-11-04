@@ -1,39 +1,66 @@
 <template>
-    <v-container>
+	<v-container>
 
-        <v-layout row align-center justify-space-between>
+		<v-layout row align-center justify-space-between>
 
-            <h1>Aufträge</h1>
-            <v-spacer></v-spacer>
+			<h1>Aufträge</h1>
+			<v-spacer></v-spacer>
 
-            <!-- RELOAD MISSIONS MANUALLY -->
-            <v-btn flat @click="reloadMissions()">
-                <v-icon>mdi-reload</v-icon>
-                <span class="pl-2">Neu laden</span>
-            </v-btn>
-            <!-- / RELOAD MISSIONS MANUALLY -->
+			<!-- START WORK -->
+			<v-btn @click="assignMission()" color="success" :disabled="missions.length === 0"
+			       :loading="assignInProgress">
+				Weiter
+			</v-btn>
+			<!-- / START WORK -->
 
-        </v-layout>
+		</v-layout>
 
-        <!-- CURRENT MISSIONS -->
-        <v-card class="mt-4">
-            <v-card-text>
-                <v-data-table disable-initial-sort :headers="headers" :items="missions" hide-actions
-                              :loading="reloadingMissions">
-                    <template slot="items" slot-scope="props">
-                        <tr @click.prevent="selectMission(props.item)">
-                            <td>{{props.item.id}}</td>
-                            <td>{{props.item.at}}</td>
-                            <td>{{props.item.place}}</td>
-                            <td class="text-xs-right">{{props.item.car}}</td>
-                        </tr>
-                    </template>
-                </v-data-table>
-            </v-card-text>
-        </v-card>
-        <!-- / CURRENT MISSIONS -->
+		<!-- CURRENT MISSIONS -->
+		<v-card class="mt-4">
+			<v-card-text>
+				<v-data-table disable-initial-sort :headers="headers" :items="missions" hide-actions
+				              :loading="reloadingMissions">
+					<template slot="items" slot-scope="props">
+						<tr>
+							<td>{{props.item.id}}</td>
+							<td>{{props.item.at}}</td>
+							<td>{{props.item.place}}</td>
+							<td class="text-xs-right">{{props.item.car}}</td>
+						</tr>
+					</template>
+				</v-data-table>
+			</v-card-text>
+		</v-card>
+		<!-- / CURRENT MISSIONS -->
 
-    </v-container>
+		<!-- RELOAD MISSIONS MANUALLY -->
+		<v-btn flat @click="reloadMissions()">
+			<v-icon>mdi-reload</v-icon>
+			<span class="pl-2">Neu laden</span>
+		</v-btn>
+		<!-- / RELOAD MISSIONS MANUALLY -->
+
+		<v-snackbar v-model="missionAdded" bottom right>
+			<span>Neuer Auftrag</span>
+			<v-btn color="primary" flat @click="missionAdded = false">Schließen</v-btn>
+		</v-snackbar>
+
+		<v-snackbar v-model="reloadError" bottom right>
+			<span>Fehler beim Laden</span>
+			<v-btn color="primary" flat @click="reloadError = false">Schließen</v-btn>
+		</v-snackbar>
+
+		<v-snackbar v-model="reloadSuccess" bottom right>
+			<span>Aufträge erfolgreich geladen</span>
+			<v-btn color="primary" flat @click="reloadSuccess = false">Schließen</v-btn>
+		</v-snackbar>
+
+		<v-snackbar v-model="selectError" bottom right>
+			<span>Fehler beim Auswählen</span>
+			<v-btn color="primary" flat @click="selectError = false">Schließen</v-btn>
+		</v-snackbar>
+
+	</v-container>
 </template>
 
 <script type="ts">
@@ -42,7 +69,12 @@
     export default Vue.extend({
         data() {
             return {
+                reloadError: false,
+                reloadSuccess: false,
+                selectError: false,
                 reloadingMissions: false,
+                assignInProgress: false,
+                missionAdded: false,
                 headers: [
                     {
                         text: 'Nr.',
@@ -69,33 +101,52 @@
         },
 
         computed: {
-            missions(){
-                return this.$store.state.missions;
+            missions() {
+                return this.$store.state.missions.missions;
             }
         },
 
-        created(){
-            this.reloadMissions();
-        },
+	    created(){
+            this.$onSocket('mission:added', () => {
+                this.missionAdded = true;
+            });
+	    },
 
         methods: {
-            async reloadMissions(){
-                if(this.reloadingMissions){
+            async reloadMissions() {
+                if (this.reloadingMissions) {
                     return;
                 }
                 this.reloadingMissions = 'info';
 
                 try {
                     await this.$store.dispatch('missions/reload');
-                } catch(e) {
-                    // TODO: add error message
+                    this.reloadSuccess = true;
+                } catch (e) {
+                    this.reloadError = true;
                 } finally {
                     this.reloadingMissions = false;
                 }
 
             },
-            selectMission(mission){
-                // TODO: implement logic
+
+            async assignMission() {
+                if (this.assignInProgress) {
+                    return;
+                }
+                this.assignInProgress = true;
+
+                try {
+                    await this.$store.dispatch('missions/assignMission');
+                    //console.log(this.$config('missionRoute'));
+                    //this.$router.push(this.$config('missionRoute'));
+                    this.$router.push('/mission');
+                } catch (err) {
+                    console.log(err);
+                    this.selectError = true;
+                } finally {
+                    this.assignInProgress = false;
+                }
             }
         }
     });

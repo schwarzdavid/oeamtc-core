@@ -1,6 +1,9 @@
 enum UserState {
-	READY,
-	MISSION_RECEIVED
+	READY = 1,
+	MISSION_RECEIVED,
+	ARRIVING,
+	AT_WORK,
+	MOVING_ON
 }
 
 interface IServiceCenter {
@@ -23,4 +26,8 @@ interface IUserRequest {
 	reason?: string
 }
 
-export {IUser, IUserRequest, UserState}
+interface IUserState extends IUser {
+	socketId: string
+}
+
+export {IUser, IUserRequest, UserState, IUserState}
