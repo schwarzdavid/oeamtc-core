@@ -39,6 +39,18 @@
 	Vue.use(Config);
 	Vue.use(Api);
 
+	let savedUser;
+	try {
+		savedUser = JSON.parse(localStorage.getItem('user'));
+	} catch (e) {
+		console.log('Cannot get saved user');
+	}
+
+	if (savedUser) {
+		store.commit('user/setUser', savedUser);
+		console.log('Setting stored user');
+	}
+
 	export default Vue.extend({
 		router,
 		store,

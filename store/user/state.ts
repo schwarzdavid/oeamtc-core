@@ -1,22 +1,12 @@
 import {IUserState, UserState} from "./types";
 
-let savedUser = {} as any;
-let savedServiceCenter = {} as any;
-
-try {
-    savedUser = JSON.parse(localStorage.getItem('user'));
-    savedServiceCenter = savedUser.servicecenter;
-} catch (e){
-	console.log('Cannot get saved ser');
-}
-
 const state: IUserState = {
-	username: savedUser.username || null,
+	username: null,
 	servicecenter: {
-		id: savedServiceCenter.id || null,
-		name: savedServiceCenter.name || null
+		id: null,
+		name: null
 	},
-	radionumber: savedUser.radionumber,
+	radionumber: null,
 	state: UserState.READY,
 	socketId: null
 };

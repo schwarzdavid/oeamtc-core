@@ -6,7 +6,7 @@ import {UserState} from "./user/types";
 const routes = config.get('routes');
 
 function isRoute(matchRoute) {
-    return router.currentRoute.matched.find(route => route.path === matchRoute);
+    return router.currentRoute.matched.find(route => route.name === matchRoute);
 }
 
 function socketPlugin(store) {
@@ -29,29 +29,35 @@ function socketPlugin(store) {
 
     store.subscribe((mutation, state) => {
 
-        /*if (mutation.type === 'user/setState') {
+        if (mutation.type === 'user/setState') {
+            let routes = config.get('routes');
+
             switch (state.user.state) {
-                case UserState.READY:
-                case UserState.MISSION_RECEIVED:
-                    if (isRoute(missionRoute)) {
-                        router.replace('/');
+                case UserState.ARRIVING:
+                    if (!isRoute(routes.arriving)) {
+                        router.replace({name: routes.arriving});
+                    }
+                    break;
+
+                case UserState.AT_WORK:
+                    if (!isRoute(routes.atWork)) {
+                        router.replace({name: routes.atWork});
+                    }
+                    break;
+
+                case UserState.MOVING_ON:
+                    if (!isRoute(routes.movingOn)) {
+                        router.replace({name: routes.movingOn});
                     }
                     break;
 
                 default:
-                    console.log(missionRoute);
-                    if (!isRoute(missionRoute)) {
-                        router.replace(missionRoute);
+                    if (!isRoute(routes.waiting)) {
+                        router.replace({name: routes.waiting});
                     }
                     break;
             }
-        } else if (mutation.type === 'user/setUser') {
-            /*if (socket.isOpen()) {
-                this.$emitSocket('register', {
-                    username: state.user.username
-                });
-            }*
-        }*/
+        }
     });
 }
 

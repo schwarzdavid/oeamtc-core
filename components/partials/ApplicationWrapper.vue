@@ -8,6 +8,21 @@
 			<slot name="navigationDrawer"></slot>
 			<!-- / NAVIGATION ITEMS -->
 
+			<v-list class="hidden-sm-and-up">
+				<v-list-tile>
+					<v-list-tile-action>
+						<v-icon>mdi-phone</v-icon>
+					</v-list-tile-action>
+
+					<v-list-tile-content>
+						<v-list-tile-title>Sprachwunsch</v-list-tile-title>
+					</v-list-tile-content>
+				</v-list-tile>
+			</v-list>
+			<!-- / CALL DESIRE -->
+
+			<v-divider></v-divider>
+
 			<!-- CURRENT USER -->
 			<v-list>
 				<v-list-tile>
@@ -53,7 +68,7 @@
 			<!-- / CALL DESIRE -->
 
 			<!-- TIME -->
-			<span class="subheading px-3 hidden-xs-only">{{time}}</span>
+			<span class="subheading pl-3 hidden-xs-only">{{time}}</span>
 			<!-- / TIME -->
 
 		</v-toolbar>
@@ -78,14 +93,14 @@
 
     const translations = {
         READY: 'bereit',
-        MISSION_RECEIVED: 'mission erhalten',
+        MISSION_RECEIVED: 'auftrag erhalten',
         ARRIVING: 'in anfahrt',
         AT_WORK: 'in arbeit',
         MOVING_ON: 'in weiterfahrt'
     } as {[key in keyof typeof UserState]: string};
 
     function getTime(): string {
-	    return new Date().toTimeString().substr(0, 5);
+        return new Date().toTimeString().substr(0, 5);
     }
 
     export default Vue.extend({
@@ -94,17 +109,17 @@
                 drawer: null,
                 alertPending: false,
                 callDesirePending: false,
-	            reportSuccess: false,
-	            reportError: false,
-	            time: getTime()
+                reportSuccess: false,
+                reportError: false,
+                time: getTime()
             };
         },
 
-	    created(){
+        created() {
             setInterval(() => {
                 this.time = getTime();
             }, 1000);
-	    },
+        },
 
         computed: {
             state(): string {
@@ -115,32 +130,32 @@
             }
         },
 
-	    methods: {
-            async alert(){
-	            this.alertPending = true;
+        methods: {
+            async alert() {
+                this.alertPending = true;
 
-	            try {
-	                await this.$api.post('/utility/alert');
-	                this.reportSuccess = true;
-	            } catch (e){
-	                this.reportError = true;
-	            } finally {
-	                this.alertPending = false;
-	            }
+                try {
+                    await this.$api.post('/utility/alert');
+                    this.reportSuccess = true;
+                } catch (e) {
+                    this.reportError = true;
+                } finally {
+                    this.alertPending = false;
+                }
             },
 
-		    async callDesire(){
+            async callDesire() {
                 this.callDesirePending = true;
 
                 try {
                     await this.$api.post('/utility/call-desire');
                     this.reportSuccess = true;
-                } catch (e){
+                } catch (e) {
                     this.reportError = true;
                 } finally {
                     this.callDesirePending = false;
                 }
-		    }
-	    }
+            }
+        }
     });
 </script>

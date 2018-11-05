@@ -4,9 +4,12 @@ import store from '../store';
 import {config} from '../plugins/config/lib';
 import DashboardComponent from '../components/dashboard/Dashboard.vue';
 import AuthComponent from '../components/auth/Auth.vue';
-import MissionsComponent from '../components/dashboard/pages/Missions.vue';
+import MissionsComponent from '../components/dashboard/Missions.vue';
 import MissionComponent from '../components/mission/Mission.vue';
-import ArrivalComponent from '../components/mission/InArrival.vue';
+import ArrivingComponent from '../components/mission/Arriving.vue';
+import AtWorkComponent from '../components/mission/AtWork.vue';
+import MovingOnComponent from '../components/mission/MovingOn.vue';
+import MissionPreviewComponent from '../components/dashboard/MissionPreview.vue'
 
 Vue.use(VueRouter);
 
@@ -23,20 +26,28 @@ const router = new VueRouter({
             path: '/',
             name: 'dashboard',
             component: DashboardComponent,
+            redirect: {
+                name: 'missions'
+            },
             children: [
                 {
                     path: '',
                     name: 'missions',
                     component: MissionsComponent
+                },
+                {
+                    path: 'preview',
+                    name: 'preview',
+                    component: MissionPreviewComponent
                 }
             ]
         }
     ]
 });
 
-console.log('Adding default routes now');
 if (config.get('useDefaultMissionRoutes')) {
-    console.log('useDefaultMissionRoutes');
+    const routes = config.get('routes');
+
     router.addRoutes([
         {
             path: '/mission',
@@ -44,9 +55,19 @@ if (config.get('useDefaultMissionRoutes')) {
             component: MissionComponent,
             children: [
                 {
-                    path: 'arrival',
-                    name: config.get('routes.arriving'),
-                    component: ArrivalComponent
+                    path: routes.arriving,
+                    name: routes.arriving,
+                    component: ArrivingComponent
+                },
+                {
+                    path: routes.atWork,
+                    name: routes.atWork,
+                    component: AtWorkComponent
+                },
+                {
+                    path: routes.movingOn,
+                    name: routes.movingOn,
+                    component: MovingOnComponent
                 }
             ]
         }
@@ -59,7 +80,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (!store.getters['user/isAuthenticated']) {
-        return next('/auth');
+        return next({name: 'auth'});
     }
 
     return next();

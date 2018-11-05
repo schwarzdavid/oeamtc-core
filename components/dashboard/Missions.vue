@@ -1,17 +1,17 @@
 <template>
-	<v-container>
+	<div>
 
 		<v-layout row align-center justify-space-between>
 
 			<h1>Aufträge</h1>
 			<v-spacer></v-spacer>
 
-			<!-- START WORK -->
-			<v-btn @click="assignMission()" color="success" :disabled="missions.length === 0"
-			       :loading="assignInProgress">
-				Weiter
+			<!-- SHOW PREVIEW -->
+			<v-btn to="preview" color="success" :disabled="missions.length === 0" replace>
+				<span class="hidden-sm-and-up">Vorschau</span>
+				<span class="hidden-xs-only">Auftragsvorschau</span>
 			</v-btn>
-			<!-- / START WORK -->
+			<!-- / SHOW PREVIEW -->
 
 		</v-layout>
 
@@ -55,12 +55,7 @@
 			<v-btn color="primary" flat @click="reloadSuccess = false">Schließen</v-btn>
 		</v-snackbar>
 
-		<v-snackbar v-model="selectError" bottom right>
-			<span>Fehler beim Auswählen</span>
-			<v-btn color="primary" flat @click="selectError = false">Schließen</v-btn>
-		</v-snackbar>
-
-	</v-container>
+	</div>
 </template>
 
 <script type="ts">
@@ -71,9 +66,7 @@
             return {
                 reloadError: false,
                 reloadSuccess: false,
-                selectError: false,
                 reloadingMissions: false,
-                assignInProgress: false,
                 missionAdded: false,
                 headers: [
                     {
@@ -128,25 +121,6 @@
                     this.reloadingMissions = false;
                 }
 
-            },
-
-            async assignMission() {
-                if (this.assignInProgress) {
-                    return;
-                }
-                this.assignInProgress = true;
-
-                try {
-                    await this.$store.dispatch('missions/assignMission');
-                    //console.log(this.$config('missionRoute'));
-                    //this.$router.push(this.$config('missionRoute'));
-                    this.$router.push('/mission');
-                } catch (err) {
-                    console.log(err);
-                    this.selectError = true;
-                } finally {
-                    this.assignInProgress = false;
-                }
             }
         }
     });

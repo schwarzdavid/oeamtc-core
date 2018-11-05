@@ -1,13 +1,19 @@
 import {ActionTree} from "vuex";
-import {IUserRequest, IUserState} from "./types";
-import {IDump, IRootState} from "../types";
+import {IUser, IUserRequest, IUserState} from "./types";
+import {IRootState} from "../types";
 import {api} from "../../plugins/rest/lib";
 import {socket} from "../../plugins/socket/lib";
 
-async function login({dispatch}, credentials: IUserRequest) {
-    const dump = await api.post('/auth/login', credentials).then(res => res.data) as IDump;
+async function login({commit, state}: {commit: any, state: IUserState}, credentials: IUserRequest) {
+    const user = await api.post('/auth/login', credentials).then(res => res.data) as IUser;
 
-    dispatch('dump', dump, {root: true});
+    commit('setUser', user);
+
+    if(socket.isOpen()){
+        socket.emit('register', {
+            username: state.username
+        });
+    }
 }
 
 const actions: ActionTree<IUserState, IRootState> = {
