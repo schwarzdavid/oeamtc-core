@@ -184,14 +184,6 @@
             };
         },
 
-        created() {
-            this.$onSocket('open', () => {
-                this.$emitSocket('register', {
-                    username: this.$store.state.user.username
-                });
-            });
-        },
-
         destroyed() {
             this.$emitSocket('unregister');
         }

@@ -16,28 +16,28 @@
 
 <script>
 	import Vue from 'vue';
-    import router from './router/index';
-    import store from './store/index';
-    import {Socket} from './plugins/socket/index';
-    import Vuetify from 'vuetify';
-    import {Config} from "./plugins/config";
-    import {Api} from "./plugins/rest";
+	import router from './router/index';
+	import store from './store/index';
+	import {Socket} from './plugins/socket/index';
+	import Vuetify from 'vuetify';
+	import {Config} from "./plugins/config";
+	import {Api} from "./plugins/rest";
 
 	Vue.use(Vuetify, {
-        iconfont: 'mdi',
-        theme: {
-	        primary: '#ffdc00',
-	        secondary: '#ffb600',
-	        accent: '#da2032',
-	        error: '#da2032',
-	        warning: '#ff4a00',
-	        info: '#0071bb',
-	        success: '#62b339'
-        }
-    });
-    Vue.use(Socket);
-    Vue.use(Config);
-    Vue.use(Api);
+		iconfont: 'mdi',
+		theme: {
+			primary: '#ffdc00',
+			secondary: '#ffb600',
+			accent: '#da2032',
+			error: '#da2032',
+			warning: '#ff4a00',
+			info: '#0071bb',
+			success: '#62b339'
+		}
+	});
+	Vue.use(Socket);
+	Vue.use(Config);
+	Vue.use(Api);
 
 	export default Vue.extend({
 		router,
@@ -50,13 +50,18 @@
 			};
 		},
 
-		created(){
+		created() {
 			this.$onSocket('close', () => {
 				this.socketClosed = true;
 			});
 
 			this.$onSocket('open', () => {
 				this.socketOpen = true;
+
+				const username = this.$store.state.user.username;
+				if (username) {
+					this.$emitSocket('register', {username});
+				}
 			});
 		}
 	});

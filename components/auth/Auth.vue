@@ -136,7 +136,7 @@
         methods: {
             async onSubmit() {
                 await this.$store.dispatch('user/login', this.user);
-                this.$router.push('/');
+                this.$router.replace('/');
             }
         }
     });
