@@ -9,7 +9,8 @@ function isRoute(matchRoute) {
 
 function socketPlugin(store) {
     socket.on('register:success', payload => {
-        store.commit('user/setSocketId', payload);
+        store.commit('user/setSocketId', payload.connId);
+        store.dispatch('dump', payload.dump);
     });
 
     socket.on('mission:added', payload => {
