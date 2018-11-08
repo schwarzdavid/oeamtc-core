@@ -3,7 +3,7 @@
 
 		<application-wrapper>
 			<template slot="navigationDrawer">
-				<v-list>
+				<div>
 
 					<!-- SERVICES -->
 					<navigation-drawer-services></navigation-drawer-services>
@@ -75,7 +75,7 @@
 					</v-list-group>
 					<!-- / STATUS -->
 
-				</v-list>
+				</div>
 			</template>
 		</application-wrapper>
 
@@ -98,7 +98,7 @@
     export default Vue.extend({
         components: {
             ApplicationWrapper,
-	        NavigationDrawerServices
+            NavigationDrawerServices
         },
 
         data() {

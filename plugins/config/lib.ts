@@ -1,10 +1,11 @@
 import {IConfig} from "./type";
+import {NavigationGuard} from 'vue-router';
 import {UserState} from "../../store/user/types";
 
 let initialConfig: IConfig = {
     useDefaultMissionRoutes: true,
     routes: {
-        waiting: 'dashboard',
+        ready: 'missions',
         arriving: 'arriving',
         atWork: 'at-work',
         movingOn: 'moving-on'

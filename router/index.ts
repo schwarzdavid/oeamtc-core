@@ -10,8 +10,12 @@ import ArrivingComponent from '../components/mission/Arriving.vue';
 import AtWorkComponent from '../components/mission/AtWork.vue';
 import MovingOnComponent from '../components/mission/MovingOn.vue';
 import MissionPreviewComponent from '../components/dashboard/MissionPreview.vue'
+import {UserState} from "../store/user/types";
+import Utils from '../lib/Utils';
 
 Vue.use(VueRouter);
+
+const routes = config.get('routes');
 
 const router = new VueRouter({
     mode: 'history',
@@ -24,19 +28,42 @@ const router = new VueRouter({
         },
         {
             path: '/',
-            name: 'dashboard',
+            name: 'home',
+            beforeEnter(to, from, next) {
+                const routes = config.get('routes');
+                switch (store.state.user.state) {
+                    case UserState.ARRIVING:
+                        next({name: routes.arriving});
+                        break;
+
+                    case UserState.AT_WORK:
+                        next({name: routes.atWork});
+                        break;
+
+                    case UserState.MOVING_ON:
+                        next({name: routes.movingOn});
+                        break;
+
+                    default:
+                        next({name: routes.ready});
+                        break;
+                }
+            }
+        },
+        {
+            path: '/missions',
             component: DashboardComponent,
-            redirect: {
-                name: 'missions'
+            meta: {
+                requireState: [UserState.READY, UserState.MISSION_RECEIVED]
             },
             children: [
                 {
                     path: '',
-                    name: 'missions',
+                    name: routes.ready,
                     component: MissionsComponent
                 },
                 {
-                    path: 'preview',
+                    path: '/mission-preview',
                     name: 'preview',
                     component: MissionPreviewComponent
                 }
@@ -46,8 +73,6 @@ const router = new VueRouter({
 });
 
 if (config.get('useDefaultMissionRoutes')) {
-    const routes = config.get('routes');
-
     router.addRoutes([
         {
             path: '/mission',
@@ -57,17 +82,26 @@ if (config.get('useDefaultMissionRoutes')) {
                 {
                     path: routes.arriving,
                     name: routes.arriving,
-                    component: ArrivingComponent
+                    component: ArrivingComponent,
+                    meta: {
+                        requireState: UserState.ARRIVING
+                    }
                 },
                 {
                     path: routes.atWork,
                     name: routes.atWork,
-                    component: AtWorkComponent
+                    component: AtWorkComponent,
+                    meta: {
+                        requireState: UserState.AT_WORK
+                    }
                 },
                 {
                     path: routes.movingOn,
                     name: routes.movingOn,
-                    component: MovingOnComponent
+                    component: MovingOnComponent,
+                    meta: {
+                        requireState: UserState.MOVING_ON
+                    }
                 }
             ]
         }
@@ -81,6 +115,10 @@ router.beforeEach((to, from, next) => {
 
     if (!store.getters['user/isAuthenticated']) {
         return next({name: 'auth'});
+    }
+
+    if (!Utils.checkStatePrecondition(to)) {
+        return next({name: 'home'});
     }
 
     return next();

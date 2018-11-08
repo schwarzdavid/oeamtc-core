@@ -20,7 +20,9 @@ interface ICustomer {
 interface IMission extends IMissionPreview {
     customer: ICustomer,
     defect: string,
-    type: string
+    type: string,
+    callTime: string,
+    expectedTime: string
 }
 
 interface IMissionState {

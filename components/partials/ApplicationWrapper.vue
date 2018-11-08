@@ -3,38 +3,52 @@
 
 		<!-- SIDE NAVIGATION -->
 		<v-navigation-drawer v-model="drawer" app fixed clipped mobile-break-point="1000">
+			<v-list>
 
-			<!-- NAVIGATION ITEMS -->
-			<slot name="navigationDrawer"></slot>
-			<!-- / NAVIGATION ITEMS -->
-
-			<v-list class="hidden-sm-and-up">
-				<v-list-tile>
+				<!-- HOME -->
+				<v-list-tile :to="{name:'home'}" active-class="">
 					<v-list-tile-action>
-						<v-icon>mdi-phone</v-icon>
+						<v-icon>mdi-home</v-icon>
 					</v-list-tile-action>
 
 					<v-list-tile-content>
-						<v-list-tile-title>Sprachwunsch</v-list-tile-title>
+						<v-list-tile-title>Hauptseite</v-list-tile-title>
 					</v-list-tile-content>
 				</v-list-tile>
-			</v-list>
-			<!-- / CALL DESIRE -->
+				<!-- / HOME -->
 
-			<v-divider></v-divider>
+				<v-divider></v-divider>
 
-			<!-- CURRENT USER -->
-			<v-list>
-				<v-list-tile>
-					<v-list-content>
+				<!-- NAVIGATION ITEMS -->
+				<slot name="navigationDrawer"></slot>
+				<!-- / NAVIGATION ITEMS -->
+
+				<div class="hidden-sm-and-up">
+					<v-list-tile>
+						<v-list-tile-action>
+							<v-icon>mdi-phone</v-icon>
+						</v-list-tile-action>
+
+						<v-list-tile-content>
+							<v-list-tile-title>Sprachwunsch</v-list-tile-title>
+						</v-list-tile-content>
+					</v-list-tile>
+				</div>
+				<!-- / CALL DESIRE -->
+
+				<v-divider></v-divider>
+
+				<!-- CURRENT USER -->
+				<v-list-tile class="mt-2">
+					<v-list-tile-content>
 						<v-list-tile-title>Aktueller Status: <strong class="text-uppercase">{{state}}</strong>
 						</v-list-tile-title>
 						<v-list-tile-sub-title>Servicestelle: {{servicecenter}}</v-list-tile-sub-title>
-					</v-list-content>
+					</v-list-tile-content>
 				</v-list-tile>
-			</v-list>
-			<!-- / CURRENT USER -->
+				<!-- / CURRENT USER -->
 
+			</v-list>
 		</v-navigation-drawer>
 		<!-- / SIDE NAVIGATION -->
 
@@ -46,7 +60,7 @@
 			<!-- / NAVIGATION TOGGLE BUTTON -->
 
 			<!-- TITLE -->
-			<span class="title ml3 mr-5">ÖAMTC Roadpatrol</span>
+			<span class="title ml3">ÖAMTC Roadpatrol</span>
 			<!-- / TITLE -->
 
 			<!-- ONLINE INDICATOR -->
@@ -85,7 +99,7 @@
 		</v-snackbar>
 
 		<v-snackbar v-model="alertSuccess" bottom right>
-			<span>Hilfe wurde eingeleitet</span>
+			<span>Hilfe wird eingeleitet</span>
 			<v-btn color="primary" flat @click="alertSuccess = false">Schließen</v-btn>
 		</v-snackbar>
 

@@ -7,7 +7,7 @@
 			<v-spacer></v-spacer>
 
 			<!-- SHOW PREVIEW -->
-			<v-btn to="preview" color="success" :disabled="missions.length === 0">
+			<v-btn :to="{name:'preview'}" color="success" :disabled="missions.length === 0">
 				<span class="hidden-sm-and-up">Vorschau</span>
 				<span class="hidden-xs-only">Auftragsvorschau</span>
 			</v-btn>

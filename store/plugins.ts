@@ -2,12 +2,9 @@ import {socket} from "../plugins/socket/lib";
 import router from '../router';
 import {config} from "../plugins/config/lib";
 import {UserState} from "./user/types";
+import Utils from "../lib/Utils";
 
 const routes = config.get('routes');
-
-function isRoute(matchRoute) {
-    return router.currentRoute.matched.find(route => route.name === matchRoute);
-}
 
 function socketPlugin(store) {
     socket.on('register:success', payload => {
@@ -27,35 +24,10 @@ function socketPlugin(store) {
         store.commit('user/setState', state);
     });
 
-    store.subscribe((mutation, state) => {
-
+    store.subscribe((mutation) => {
         if (mutation.type === 'user/setState') {
-            let routes = config.get('routes');
-
-            switch (state.user.state) {
-                case UserState.ARRIVING:
-                    if (!isRoute(routes.arriving)) {
-                        router.replace({name: routes.arriving});
-                    }
-                    break;
-
-                case UserState.AT_WORK:
-                    if (!isRoute(routes.atWork)) {
-                        router.replace({name: routes.atWork});
-                    }
-                    break;
-
-                case UserState.MOVING_ON:
-                    if (!isRoute(routes.movingOn)) {
-                        router.replace({name: routes.movingOn});
-                    }
-                    break;
-
-                default:
-                    if (!isRoute(routes.waiting)) {
-                        router.replace({name: routes.waiting});
-                    }
-                    break;
+            if (!Utils.checkStatePrecondition(router.currentRoute)) {
+                return router.push({name: 'home'});
             }
         }
     });

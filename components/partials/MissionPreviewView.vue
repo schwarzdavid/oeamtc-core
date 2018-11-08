@@ -22,8 +22,6 @@
 				<span class="d-block">{{mission.address.code}} {{mission.address.city}}<br>{{mission.address.street}}</span>
 			</div>
 
-			<v-spacer></v-spacer>
-
 			<div>
 				<v-btn>Navigieren</v-btn>
 			</div>
@@ -31,12 +29,19 @@
 		<!-- / DESTINATION PLACE -->
 
 		<!-- CAR & DAMAGE -->
-		<v-layout class="mt-3">
+		<v-layout class="mt-3" justify-space-between align-center wrap>
 			<div>
 				<span class="sectionCaption d-block pb-1">Panneninformation</span>
 				<span class="d-block">{{mission.car}}</span>
 				<span class="d-block">{{mission.defect}}</span>
 				<span class="d-block">{{mission.type}}</span>
+			</div>
+
+			<div>
+				<span class="sectionCaption d-block pb-1">Anrufzeit</span>
+				<span class="d-block">{{mission.callTime}}</span>
+				<span class="sectionCaption d-block pb-1 pt-3">Erwartete Ankunftszeit</span>
+				<span class="d-block">{{mission.expectedTime}}</span>
 			</div>
 		</v-layout>
 		<!-- / CAR & DAMAGE -->

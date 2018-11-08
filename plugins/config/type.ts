@@ -1,7 +1,7 @@
 interface IConfig {
     useDefaultMissionRoutes: boolean,
     routes: {
-        waiting: string,
+        ready: string,
         arriving: string,
         atWork: string,
         movingOn: string
