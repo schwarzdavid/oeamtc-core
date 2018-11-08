@@ -1,12 +1,26 @@
+interface IAddress {
+    street: string,
+    code: string | number,
+    city: string
+}
+
 interface IMissionPreview {
     id: number,
-    at: string,
-    place: string,
+    address: IAddress,
     car: string
 }
 
-interface IMission extends IMissionPreview {
+interface ICustomer {
+    name: string,
+    type: string,
+    tel: number,
+    address: IAddress
+}
 
+interface IMission extends IMissionPreview {
+    customer: ICustomer,
+    defect: string,
+    type: string
 }
 
 interface IMissionState {

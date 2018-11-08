@@ -8,7 +8,7 @@
 			<v-spacer></v-spacer>
 
 			<!-- BACK TO OVERVIEW -->
-			<v-btn to="/" color="success" flat replace>
+			<v-btn to="/" color="success" flat>
 				Zurück
 			</v-btn>
 			<!-- / BACK TO OVERVIEW -->
@@ -25,7 +25,8 @@
 		<!-- MISSION PREVIEW -->
 		<v-card class="mt-4">
 			<v-card-text>
-				<loading-spinner></loading-spinner>
+				<loading-spinner v-if="!mission"></loading-spinner>
+				<mission-preview-view v-if="mission" :mission="mission"></mission-preview-view>
 			</v-card-text>
 		</v-card>
 		<!-- / MISSION PREVIEW -->
@@ -40,18 +41,31 @@
 <script lang="ts">
     import Vue from 'vue';
     import LoadingSpinner from '../partials/LoadingSpinner.vue';
+    import MissionPreviewView from '../partials/MissionPreviewView.vue';
 
     export default Vue.extend({
         data() {
             return {
                 assignInProgress: false,
-                selectError: false
+                selectError: false,
+                mission: null
             };
         },
 
-	    components: {
-            LoadingSpinner
-	    },
+        components: {
+            LoadingSpinner,
+            MissionPreviewView
+        },
+
+        async created() {
+            try {
+                this.mission = await this.$api.get('/missions/next').then(response => response.data);
+            } catch (e) {
+                this.$router.push({
+	                name: this.$config('routes.waiting')
+                });
+            }
+        },
 
         methods: {
             async assignMission() {

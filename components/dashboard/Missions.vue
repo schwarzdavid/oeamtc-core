@@ -7,7 +7,7 @@
 			<v-spacer></v-spacer>
 
 			<!-- SHOW PREVIEW -->
-			<v-btn to="preview" color="success" :disabled="missions.length === 0" replace>
+			<v-btn to="preview" color="success" :disabled="missions.length === 0">
 				<span class="hidden-sm-and-up">Vorschau</span>
 				<span class="hidden-xs-only">Auftragsvorschau</span>
 			</v-btn>
@@ -18,13 +18,14 @@
 		<!-- CURRENT MISSIONS -->
 		<v-card class="mt-4">
 			<v-card-text>
+				{{mission}}
 				<v-data-table disable-initial-sort :headers="headers" :items="missions" hide-actions
 				              :loading="reloadingMissions">
 					<template slot="items" slot-scope="props">
 						<tr>
 							<td>{{props.item.id}}</td>
-							<td>{{props.item.at}}</td>
-							<td>{{props.item.place}}</td>
+							<td>{{props.item.address.code}} {{props.item.address.city}}</td>
+							<td>{{props.item.address.street }}</td>
 							<td class="text-xs-right">{{props.item.car}}</td>
 						</tr>
 					</template>
@@ -75,12 +76,12 @@
                         sortable: false
                     },
                     {
-                        text: 'AT',
+                        text: 'Ort',
                         align: 'left',
                         sortable: false
                     },
                     {
-                        text: 'Ort',
+                        text: 'Straße',
                         align: 'left',
                         sortable: false
                     },
@@ -99,11 +100,11 @@
             }
         },
 
-	    created(){
+        created() {
             this.$onSocket('mission:added', () => {
                 this.missionAdded = true;
             });
-	    },
+        },
 
         methods: {
             async reloadMissions() {

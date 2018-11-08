@@ -79,9 +79,14 @@
 			<v-btn color="primary" flat @click="reportError = false">Schließen</v-btn>
 		</v-snackbar>
 
-		<v-snackbar v-model="reportSuccess" bottom right>
+		<v-snackbar v-model="callDesireSuccess" bottom right>
 			<span>Anfrage erfolgreich</span>
-			<v-btn color="primary" flat @click="reportSuccess = false">Schließen</v-btn>
+			<v-btn color="primary" flat @click="callDesireSuccess = false">Schließen</v-btn>
+		</v-snackbar>
+
+		<v-snackbar v-model="alertSuccess" bottom right>
+			<span>Hilfe wurde eingeleitet</span>
+			<v-btn color="primary" flat @click="alertSuccess = false">Schließen</v-btn>
 		</v-snackbar>
 
 	</div>
@@ -108,8 +113,9 @@
             return {
                 drawer: null,
                 alertPending: false,
+                alertSuccess: false,
                 callDesirePending: false,
-                reportSuccess: false,
+                callDesireSuccess: false,
                 reportError: false,
                 time: getTime()
             };
@@ -136,7 +142,7 @@
 
                 try {
                     await this.$api.post('/utility/alert');
-                    this.reportSuccess = true;
+                    this.alertSuccess = true;
                 } catch (e) {
                     this.reportError = true;
                 } finally {
@@ -149,7 +155,7 @@
 
                 try {
                     await this.$api.post('/utility/call-desire');
-                    this.reportSuccess = true;
+                    this.callDesireSuccess = true;
                 } catch (e) {
                     this.reportError = true;
                 } finally {
