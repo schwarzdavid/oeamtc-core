@@ -22,7 +22,8 @@ interface IMission extends IMissionPreview {
     defect: string,
     type: string,
     callTime: string,
-    expectedTime: string
+    expectedTime: string,
+    towAddress?: IAddress
 }
 
 interface IMissionState {

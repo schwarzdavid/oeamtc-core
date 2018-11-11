@@ -26,7 +26,7 @@
 		<v-card class="mt-4">
 			<v-card-text>
 				<loading-spinner v-if="!mission"></loading-spinner>
-				<mission-preview-view v-if="mission" :mission="mission"></mission-preview-view>
+				<mission-details v-if="mission" :mission="mission" :show-navigation="true"></mission-details>
 			</v-card-text>
 		</v-card>
 		<!-- / MISSION PREVIEW -->
@@ -41,7 +41,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import LoadingSpinner from '../partials/LoadingSpinner.vue';
-    import MissionPreviewView from '../partials/MissionPreviewView.vue';
+    import MissionDetails from '../partials/MissionDetails.vue';
 
     export default Vue.extend({
         data() {
@@ -54,7 +54,7 @@
 
         components: {
             LoadingSpinner,
-            MissionPreviewView
+	        MissionDetails
         },
 
         async created() {

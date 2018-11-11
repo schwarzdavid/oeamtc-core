@@ -1,16 +1,6 @@
 <template>
 	<v-app>
 		<router-view></router-view>
-
-		<v-snackbar v-model="socketOpen" bottom right>
-			<span>Verbindung hergestellt</span>
-			<v-btn color="primary" flat @click.prevent="socketOpen = false">Schließen</v-btn>
-		</v-snackbar>
-
-		<v-snackbar v-model="socketClosed" bottom right>
-			<span>Verbindung unterbrochen</span>
-			<v-btn color="primary" flat @click.prevent="socketClosed = false">Schließen</v-btn>
-		</v-snackbar>
 	</v-app>
 </template>
 
@@ -22,6 +12,7 @@
 	import Vuetify from 'vuetify';
 	import {Config} from "./plugins/config";
 	import {Api} from "./plugins/rest";
+	import ApplicationDrawer from './components/layouts/ApplicationWrapper.vue';
 
 	Vue.use(Vuetify, {
 		iconfont: 'mdi',
@@ -60,6 +51,10 @@
 				socketOpen: false,
 				socketClosed: false
 			};
+		},
+
+		components: {
+			ApplicationDrawer
 		},
 
 		created() {

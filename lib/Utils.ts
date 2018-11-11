@@ -1,8 +1,15 @@
-import {Route, RouteRecord} from "vue-router";
-import store from "../store";
+import {Route, RouteConfig, RouteRecord} from "vue-router";
+import EventEmitter from './EventEmitter';
+import {UserState} from "../store/user/types";
+
+interface IEvents {
+    'mission-routes': RouteConfig[]
+}
+
+const events = new EventEmitter<IEvents>();
 
 class Utils {
-    static checkStatePrecondition(route: Route){
+    static checkStatePrecondition(route: Route, targetState: UserState){
         return route.matched.every((route: RouteRecord) => {
             let states = route.meta.requireState;
 
@@ -14,9 +21,22 @@ class Utils {
                 states = [states];
             }
 
-            return states.findIndex(state => state === store.state.user.state) >= 0;
+            return states.findIndex(state => state === targetState) >= 0;
         });
+    }
+
+    static get on(){
+        return events.on;
+    }
+
+    static get off(){
+        return events.off;
+    }
+
+    static get emit(){
+        return events.emit;
     }
 }
 
 export default Utils;
+export {events};

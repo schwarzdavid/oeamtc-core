@@ -2,16 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store';
 import {config} from '../plugins/config/lib';
-import DashboardComponent from '../components/dashboard/Dashboard.vue';
+import {UserState} from "../store/user/types";
+import Utils, {events} from '../lib/Utils';
+
 import AuthComponent from '../components/auth/Auth.vue';
 import MissionsComponent from '../components/dashboard/Missions.vue';
-import MissionComponent from '../components/mission/Mission.vue';
 import ArrivingComponent from '../components/mission/Arriving.vue';
 import AtWorkComponent from '../components/mission/AtWork.vue';
 import MovingOnComponent from '../components/mission/MovingOn.vue';
-import MissionPreviewComponent from '../components/dashboard/MissionPreview.vue'
-import {UserState} from "../store/user/types";
-import Utils from '../lib/Utils';
+import MissionPreviewComponent from '../components/dashboard/MissionPreview.vue';
+import LayoutComponent from '../components/layouts/ApplicationLayout.vue';
 
 Vue.use(VueRouter);
 
@@ -52,7 +52,7 @@ const router = new VueRouter({
         },
         {
             path: '/missions',
-            component: DashboardComponent,
+            component: LayoutComponent,
             meta: {
                 requireState: [UserState.READY, UserState.MISSION_RECEIVED]
             },
@@ -68,17 +68,11 @@ const router = new VueRouter({
                     component: MissionPreviewComponent
                 }
             ]
-        }
-    ]
-});
-
-if (config.get('useDefaultMissionRoutes')) {
-    router.addRoutes([
+        },
         {
             path: '/mission',
-            name: 'mission',
-            component: MissionComponent,
-            children: [
+            component: LayoutComponent,
+            children: events.emit('mission-routes', [
                 {
                     path: routes.arriving,
                     name: routes.arriving,
@@ -103,10 +97,10 @@ if (config.get('useDefaultMissionRoutes')) {
                         requireState: UserState.MOVING_ON
                     }
                 }
-            ]
+            ])
         }
-    ]);
-}
+    ]
+});
 
 router.beforeEach((to, from, next) => {
     if (to.name === 'auth') {
@@ -117,11 +111,13 @@ router.beforeEach((to, from, next) => {
         return next({name: 'auth'});
     }
 
-    if (!Utils.checkStatePrecondition(to)) {
+    if (!Utils.checkStatePrecondition(to, store.state.user.state)) {
         return next({name: 'home'});
     }
 
     return next();
 });
+
+console.log(router);
 
 export default router;

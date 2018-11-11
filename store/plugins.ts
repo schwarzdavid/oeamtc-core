@@ -26,7 +26,7 @@ function socketPlugin(store) {
 
     store.subscribe((mutation) => {
         if (mutation.type === 'user/setState') {
-            if (!Utils.checkStatePrecondition(router.currentRoute)) {
+            if (!Utils.checkStatePrecondition(router.currentRoute, store.state.user.state)) {
                 return router.push({name: 'home'});
             }
         }

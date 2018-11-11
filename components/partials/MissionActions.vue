@@ -37,13 +37,13 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import MissionDetails from '../partials/MissionDetails.vue';
-    import MissionActions from '../partials/MissionActions.vue';
+    import MissionDetails from './MissionDetails.vue';
+    import MissionActions from './MissionActions.vue';
 
     export default Vue.extend({
         components: {
             MissionDetails,
-	        MissionActions
+            MissionActions
         },
 
         computed: {
