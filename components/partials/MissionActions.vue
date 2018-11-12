@@ -22,12 +22,16 @@
 				<mission-details :mission="mission"></mission-details>
 			</v-card-text>
 		</v-card>
-		<!-- / MISSION PREVIEW -->
+		<!-- / MISSION PREVIEW -
+
+		<!-- HEADING -->
+		<h1 class="mt-4">Aktionen</h1>
+		<!-- / HEADING -->
 
 		<!-- MISSION ACTIONS -->
 		<v-card class="mt-4">
 			<v-card-text>
-				<mission-actions></mission-actions>
+				<slot name="actions"></slot>
 			</v-card-text>
 		</v-card>
 		<!-- / MISSION ACTIONS -->
@@ -38,12 +42,10 @@
 <script lang="ts">
     import Vue from 'vue';
     import MissionDetails from './MissionDetails.vue';
-    import MissionActions from './MissionActions.vue';
 
     export default Vue.extend({
         components: {
-            MissionDetails,
-            MissionActions
+            MissionDetails
         },
 
         computed: {
