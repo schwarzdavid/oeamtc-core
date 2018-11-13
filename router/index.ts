@@ -18,7 +18,7 @@ Vue.use(VueRouter);
 const routes = config.get('routes');
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     base: '/',
     routes: [
         {
