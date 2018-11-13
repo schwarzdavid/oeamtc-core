@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<div>
 
 		<!-- HEADING -->
 		<v-layout row align-center justify-space-between wrap>
@@ -36,7 +36,7 @@
 		</v-card>
 		<!-- / MISSION ACTIONS -->
 
-	</v-container>
+	</div>
 </template>
 
 <script lang="ts">

@@ -68,7 +68,12 @@
     export default Vue.extend({
         data() {
             return {
-                mission: null,
+                mission: {
+                    customer: {
+                        address: {}
+                    },
+	                towAddress: {}
+                },
                 showNavigation: false,
                 showTowNavigation: false
             };
