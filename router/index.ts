@@ -30,6 +30,7 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             beforeEnter(to, from, next) {
+                console.log("im here ffs");
                 const routes = config.get('routes');
                 switch (store.state.user.state) {
                     case UserState.ARRIVING:
@@ -103,6 +104,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    console.log(from, to);
+
     if (to.name === 'auth') {
         return next();
     }
@@ -117,7 +120,5 @@ router.beforeEach((to, from, next) => {
 
     return next();
 });
-
-console.log(router);
 
 export default router;
