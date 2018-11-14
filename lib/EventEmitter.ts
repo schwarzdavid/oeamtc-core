@@ -75,9 +75,9 @@ class EventEmitter<Events> {
         }
     }
 
-    public emit<Key extends keyof Events>(key: Key, payload: Events[Key]): any {
+    public emit<Key extends keyof Events>(key: Key, payload: Events[Key]): Events[Key] {
         if(!this._has(key)){
-            return;
+            return payload;
         }
 
         const sortedCb = this._callbacks[key].sort((a,b) => a.weight - b.weight);

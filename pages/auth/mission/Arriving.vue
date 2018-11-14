@@ -29,7 +29,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-	import MissionDetails from '../partials/MissionDetails.vue';
+	import MissionDetails from '../../../components/ui/MissionDetails.vue';
 
 	export default Vue.extend({
 		data(){

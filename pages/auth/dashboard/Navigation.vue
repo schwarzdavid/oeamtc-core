@@ -76,7 +76,7 @@
 
 <script lang="ts">
 	import Vue from 'vue';
-    import NavigationDrawerServices from '../partials/drawer/NavigationDrawerServices.vue';
+    import NavigationDrawerServices from '../ui/drawer/NavigationDrawerServices.vue';
 
     export default Vue.extend({
 	    components: {

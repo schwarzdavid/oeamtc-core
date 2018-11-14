@@ -10,7 +10,7 @@
 			</div>
 
 			<div>
-				<v-btn>{{mission.customer.tel}}</v-btn>
+				<phone-number :tel="mission.customer.tel"></phone-number>
 			</div>
 		</v-layout>
 		<!-- / CUSTOMER -->
@@ -64,20 +64,12 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import PhoneNumber from '../common/PhoneNumber.vue';
 
     export default Vue.extend({
-        data() {
-            return {
-                mission: {
-                    customer: {
-                        address: {}
-                    },
-	                towAddress: {}
-                },
-                showNavigation: false,
-                showTowNavigation: false
-            };
-        },
+        components: {
+            PhoneNumber
+	    },
 
         props: ['mission', 'showNavigation', 'showTowNavigation']
     });

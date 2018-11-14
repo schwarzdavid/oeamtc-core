@@ -5,12 +5,12 @@ import {config} from '../plugins/config/lib';
 import {UserState} from "../store/user/types";
 import Utils, {events} from '../lib/Utils';
 
-import AuthComponent from '../components/auth/Auth.vue';
-import MissionsComponent from '../components/dashboard/Missions.vue';
-import ArrivingComponent from '../components/mission/Arriving.vue';
-import AtWorkComponent from '../components/mission/AtWork.vue';
-import MovingOnComponent from '../components/mission/MovingOn.vue';
-import MissionPreviewComponent from '../components/dashboard/MissionPreview.vue';
+import AuthComponent from '../pages/auth/Auth.vue';
+import MissionsComponent from '../pages/auth/dashboard/Missions.vue';
+import ArrivingComponent from '../pages/auth/mission/Arriving.vue';
+import AtWorkComponent from '../pages/auth/mission/AtWork.vue';
+import MovingOnComponent from '../pages/auth/mission/MovingOn.vue';
+import MissionPreviewComponent from '../pages/auth/dashboard/MissionPreview.vue';
 import LayoutComponent from '../components/layouts/ApplicationLayout.vue';
 
 Vue.use(VueRouter);
@@ -75,15 +75,19 @@ const router = new VueRouter({
             component: LayoutComponent,
             children: events.emit('mission-routes', [
                 {
-                    path: routes.arriving,
+                    path: '/mission/arriving',
                     name: routes.arriving,
                     component: ArrivingComponent,
                     meta: {
                         requireState: UserState.ARRIVING
+                    },
+                    beforeEnter(to, from, next){
+                        console.log('entering arriving component');
+                        next();
                     }
                 },
                 {
-                    path: routes.atWork,
+                    path: '/mission/at-work',
                     name: routes.atWork,
                     component: AtWorkComponent,
                     meta: {
@@ -91,7 +95,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: routes.movingOn,
+                    path: '/mission/moving-on',
                     name: routes.movingOn,
                     component: MovingOnComponent,
                     meta: {
@@ -99,13 +103,19 @@ const router = new VueRouter({
                     }
                 }
             ])
+        },
+        {
+            path: '*',
+            redirect: {
+                name: 'home'
+            }
         }
     ]
 });
 
-router.beforeEach((to, from, next) => {
-    console.log(from, to);
+console.log(events.emit('mission-routes', []));
 
+router.beforeEach((to, from, next) => {
     if (to.name === 'auth') {
         return next();
     }

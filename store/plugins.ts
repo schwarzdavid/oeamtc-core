@@ -1,7 +1,6 @@
 import {socket} from "../plugins/socket/lib";
 import router from '../router';
 import {config} from "../plugins/config/lib";
-import {UserState} from "./user/types";
 import Utils from "../lib/Utils";
 
 const routes = config.get('routes');
