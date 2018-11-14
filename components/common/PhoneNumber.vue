@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<v-btn @click="triggerCall()"></v-btn>
+		<v-btn @click="triggerCall()">{{tel}}</v-btn>
 
 		<v-snackbar v-model="callSuccess" bottom right>
-			<span>Hilfe wird eingeleitet</span>
+			<span>Anruf wird eingeleitet</span>
 			<v-btn color="primary" flat @click="callSuccess = false">Schließen</v-btn>
 		</v-snackbar>
 	</div>
@@ -27,7 +27,7 @@
                 const result = events.emit('trigger-call', this.tel);
 
                 if(result === null){
-
+	                this.callSuccess = true;
                 }
             }
         }

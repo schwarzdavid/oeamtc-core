@@ -113,8 +113,6 @@ const router = new VueRouter({
     ]
 });
 
-console.log(events.emit('mission-routes', []));
-
 router.beforeEach((to, from, next) => {
     if (to.name === 'auth') {
         return next();
