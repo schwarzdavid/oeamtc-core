@@ -1,4 +1,3 @@
-import Vue from "vue";
 import {SocketPlugin} from '../plugins/socket/types';
 
 declare module "vue/types/vue" {
