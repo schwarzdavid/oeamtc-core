@@ -17,19 +17,15 @@
 		<!-- / HEADING -->
 
 		<!-- MISSION PREVIEW -->
-		<v-card class="mt-4">
-			<v-card-text>
-				<mission-details :mission="mission"></mission-details>
-			</v-card-text>
-		</v-card>
+		<mission-details :mission="mission"></mission-details>
 		<!-- / MISSION PREVIEW -->
 
+		<!-- HEADING -->
+		<h1 class="mt-4">Aktionen</h1>
+		<!-- / HEADING -->
+
 		<!-- MISSION ACTIONS -->
-		<v-card class="mt-4">
-			<v-card-text>
-				<mission-actions></mission-actions>
-			</v-card-text>
-		</v-card>
+		<mission-actions></mission-actions>
 		<!-- / MISSION ACTIONS -->
 
 	</v-container>

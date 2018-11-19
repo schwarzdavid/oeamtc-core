@@ -4,7 +4,8 @@ import {UserState} from "../store/user/types";
 
 interface IEvents {
     'mission-routes': RouteConfig[],
-    'trigger-call': string
+    'trigger-call': string,
+    'register-open': undefined
 }
 
 const events = new EventEmitter<IEvents>();
