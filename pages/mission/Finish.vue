@@ -7,9 +7,20 @@
 			<h1>Auftragsabschluss</h1>
 			<v-spacer></v-spacer>
 
-			<!-- LAST STEP -->
-			<v-btn color="red" dark @click="step--">Zurück</v-btn>
-			<!-- / LAST STEP -->
+			<!-- BACK -->
+			<v-dialog v-model="backDialog" presistent max-width="290">
+				<v-btn color="red" dark slot="activator">Zurück</v-btn>
+				<v-card>
+					<v-card-title class="headline">Sind Sie sicher?</v-card-title>
+					<v-card-text>Wenn Sie jetzt zurück gehen, verlieren Sie Ihre eingegebenen Daten. Möchten Sie dennoch zurück?</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="warning" flat @click="back()">Ja</v-btn>
+						<v-btn color="success" @click="backDialog = false">Nein</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+			<!-- / BACK -->
 
 		</v-layout>
 		<!-- / HEADING -->
@@ -99,7 +110,8 @@
             return {
                 step: 1,
                 registerStep: 3,
-                errorSnack: false
+                errorSnack: false,
+                backDialog: false
             };
         },
 
@@ -121,7 +133,11 @@
                     console.log(err);
                     this.errorSnack = true;
                 }
-            }
+            },
+
+	        back(){
+		        this.$router.go(-1);
+	        }
         }
     });
 </script>
