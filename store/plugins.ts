@@ -17,6 +17,7 @@ function socketPlugin(store) {
 
     socket.on('mission:assigned', payload => {
         store.commit('missions/assignMission', payload);
+        store.commit('missions/shiftMission');
     });
 
     socket.on('user:state', state => {
