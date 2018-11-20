@@ -6,7 +6,7 @@
 			<v-layout justify-space-between align-center wrap>
 				<div>
 					<span class="sectionCaption d-block pb-1">Betroffener</span>
-					<span class="title d-block">{{mission.customer.name}}</span>
+					<span class="title d-block">{{mission.customer.firstName}} {{mission.customer.lastName}}</span>
 					<span class="d-block">{{mission.customer.type}}</span>
 				</div>
 

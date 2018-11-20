@@ -17,39 +17,33 @@
 		<!-- / HEADING -->
 
 		<!-- MISSION PREVIEW -->
-		<v-card class="mt-4">
-			<v-card-text>
-				<mission-details :mission="mission" :show-navigation="true"></mission-details>
-			</v-card-text>
-		</v-card>
+		<mission-details :mission="mission" :show-navigation="true"></mission-details>
 		<!-- / MISSION PREVIEW -->
 
 	</div>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-	import MissionDetails from '../../../components/ui/MissionDetails.vue';
+    import Vue from 'vue';
+    import MissionDetails from '../../components/ui/MissionDetails.vue';
 
-	export default Vue.extend({
-		data(){
-		    return {
+    export default Vue.extend({
+        data() {
+            return {}
+        },
 
-		    }
-		},
+        components: {
+            MissionDetails
+        },
 
-		components: {
-		    MissionDetails
-		},
+        computed: {
+            mission() {
+                return this.$store.state.missions.assignedMission;
+            }
+        },
 
-		computed: {
-		    mission() {
-		        return this.$store.state.missions.assignedMission;
-		    }
-		},
-
-		methods: {
-		    async atWork(){
+        methods: {
+            async atWork() {
                 if (this.assignInProgress) {
                     return;
                 }
@@ -61,7 +55,7 @@
                     this.selectError = true;
                     this.assignInProgress = false;
                 }
-		    }
-		}
-	});
+            }
+        }
+    });
 </script>

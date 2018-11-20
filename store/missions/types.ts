@@ -11,10 +11,14 @@ interface IMissionPreview {
 }
 
 interface ICustomer {
-    name: string,
+    firstName: string,
+    lastName: string,
+    id: number | string,
     type: string,
     tel: number,
-    address: IAddress
+    address: IAddress,
+    gender: string,
+    birthday: string
 }
 
 interface IMission extends IMissionPreview {
@@ -23,7 +27,8 @@ interface IMission extends IMissionPreview {
     type: string,
     callTime: string,
     expectedTime: string,
-    towAddress?: IAddress
+    towAddress?: IAddress,
+    finishAdded?: boolean
 }
 
 interface IMissionState {

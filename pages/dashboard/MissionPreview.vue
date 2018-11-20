@@ -23,12 +23,8 @@
 		<!-- / HEADING -->
 
 		<!-- MISSION PREVIEW -->
-		<v-card class="mt-4">
-			<v-card-text>
-				<loading-spinner v-if="!mission"></loading-spinner>
-				<mission-details v-if="mission" :mission="mission" :show-navigation="true"></mission-details>
-			</v-card-text>
-		</v-card>
+		<loading-spinner v-if="!mission"></loading-spinner>
+		<mission-details v-if="mission" :mission="mission" :show-navigation="true"></mission-details>
 		<!-- / MISSION PREVIEW -->
 
 		<v-snackbar v-model="selectError" bottom right>
@@ -40,8 +36,8 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import LoadingSpinner from '../../../components/common/LoadingSpinner.vue';
-    import MissionDetails from '../../../components/ui/MissionDetails.vue';
+    import LoadingSpinner from '../../components/common/LoadingSpinner.vue';
+    import MissionDetails from '../../components/ui/MissionDetails.vue';
 
     export default Vue.extend({
         data() {
@@ -54,7 +50,7 @@
 
         components: {
             LoadingSpinner,
-	        MissionDetails
+            MissionDetails
         },
 
         async created() {
@@ -62,7 +58,7 @@
                 this.mission = await this.$api.get('/missions/next').then(response => response.data);
             } catch (e) {
                 this.$router.push({
-	                name: this.$config('routes.waiting')
+                    name: this.$config('routes.waiting')
                 });
             }
         },

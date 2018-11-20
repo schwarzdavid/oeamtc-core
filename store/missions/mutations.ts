@@ -13,10 +13,20 @@ function assignMission(state: IMissionState, assignment: IMission){
     state.assignedMission = assignment;
 }
 
+function shiftMission(state: IMissionState){
+    state.missions.shift();
+}
+
+function setMissionResult(state: IMissionState){
+    state.assignedMission.finishAdded = true;
+}
+
 const mutations: MutationTree<IMissionState> = {
     addMission,
     clearMissions,
-    assignMission
+    assignMission,
+    shiftMission,
+    setMissionResult
 };
 
 export {mutations}

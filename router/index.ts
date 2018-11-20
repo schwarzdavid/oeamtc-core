@@ -6,12 +6,13 @@ import {UserState} from "../store/user/types";
 import Utils, {events} from '../lib/Utils';
 
 import AuthComponent from '../pages/auth/Auth.vue';
-import MissionsComponent from '../pages/auth/dashboard/Missions.vue';
-import ArrivingComponent from '../pages/auth/mission/Arriving.vue';
-import AtWorkComponent from '../pages/auth/mission/AtWork.vue';
-import MovingOnComponent from '../pages/auth/mission/MovingOn.vue';
-import MissionPreviewComponent from '../pages/auth/dashboard/MissionPreview.vue';
+import MissionsComponent from '../pages/dashboard/Missions.vue';
+import ArrivingComponent from '../pages/mission/Arriving.vue';
+import AtWorkComponent from '../pages/mission/AtWork.vue';
+import MovingOnComponent from '../pages/mission/MovingOn.vue';
+import MissionPreviewComponent from '../pages/dashboard/MissionPreview.vue';
 import LayoutComponent from '../components/layouts/ApplicationLayout.vue';
+import FinishComponent from '../pages/mission/Finish.vue';
 
 Vue.use(VueRouter);
 
@@ -30,7 +31,6 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             beforeEnter(to, from, next) {
-                console.log("im here ffs");
                 const routes = config.get('routes');
                 switch (store.state.user.state) {
                     case UserState.ARRIVING:
@@ -75,19 +75,15 @@ const router = new VueRouter({
             component: LayoutComponent,
             children: events.emit('mission-routes', [
                 {
-                    path: '/mission/arriving',
+                    path: 'arriving',
                     name: routes.arriving,
                     component: ArrivingComponent,
                     meta: {
                         requireState: UserState.ARRIVING
-                    },
-                    beforeEnter(to, from, next){
-                        console.log('entering arriving component');
-                        next();
                     }
                 },
                 {
-                    path: '/mission/at-work',
+                    path: 'at-work',
                     name: routes.atWork,
                     component: AtWorkComponent,
                     meta: {
@@ -95,11 +91,19 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: '/mission/moving-on',
+                    path: 'moving-on',
                     name: routes.movingOn,
                     component: MovingOnComponent,
                     meta: {
                         requireState: UserState.MOVING_ON
+                    }
+                },
+                {
+                    path: 'finish',
+                    name: 'finish',
+                    component: FinishComponent,
+                    meta: {
+                        requireState: [UserState.AT_WORK, UserState.MOVING_ON]
                     }
                 }
             ])
