@@ -8,7 +8,7 @@ let retry = 0;
 let _socket = openSocket();
 
 function openSocket() {
-	const ws = new WebSocket('ws://192.168.1.69:8080');
+	const ws = new WebSocket('wss://192.168.1.69:8080');
 	retry++;
 
 	ws.onopen = () => {
